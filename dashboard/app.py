@@ -1,17 +1,11 @@
 from dash import Dash, html, dcc
-import pandas as pd
 import plotly.express as px
+from data_access import read_gapminder
+from plots import plot_scatter
 
 app = Dash(__name__)
-
-gapminder = pd.read_csv("dashboard/static/gapminderData2.csv")
-
-scatter = px.scatter(
-    gapminder[gapminder.year == 2007],
-    x="gdpPercap",
-    y="bornPerwom",
-    hover_name="country",
-)
+gapminder = read_gapminder()
+scatter = plot_scatter(gapminder)
 
 app.layout = html.Div(
     children=[
