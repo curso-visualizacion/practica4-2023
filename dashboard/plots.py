@@ -7,5 +7,7 @@ def plot_scatter(data: pd.DataFrame):
         data[data.year == 2007],
         x="gdpPercap",
         y="bornPerwom",
+        size="pop",
+        color="continent",
         hover_name="country",
     )
