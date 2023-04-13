@@ -1,21 +1,35 @@
 from dash import Dash, html, dcc
-import plotly.express as px
 from data_access import read_gapminder, read_migrantes
 from plots import plot_heatmap, plot_scatter
+import dash_bootstrap_components as dbc
 
-app = Dash(__name__)
+app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 gapminder = read_gapminder()
 migrantes = read_migrantes()
 scatter = plot_scatter(gapminder)
 heatmap = plot_heatmap(migrantes)
 
-app.layout = html.Div(
+app.layout = dbc.Container(
+    fluid=True,
     children=[
-        html.H1("PIB Per cápita vs nacimientos por mujer"),
-        dcc.Graph(id="ejercicio1", figure=scatter),
-        html.H1("Heatmap Migrantes por Año"),
-        dcc.Graph(id="heatmap", figure=heatmap),
-    ]
+        dbc.Row(
+            [
+                dbc.Col(
+                    [
+                        html.H1("PIB Per cápita vs nacimientos por mujer"),
+                        dcc.Graph(id="ejercicio1", figure=scatter),
+                    ],
+                    width=7,
+                ),
+                dbc.Col(
+                    [
+                        html.H1("Heatmap Migrantes por Año"),
+                        dcc.Graph(id="heatmap", figure=heatmap),
+                    ]
+                ),
+            ]
+        ),
+    ],
 )
 
 
