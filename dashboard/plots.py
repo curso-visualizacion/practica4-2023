@@ -17,14 +17,17 @@ def plot_scatter(data: pd.DataFrame):
     )
 
 
-def get_top5(data: pd.DataFrame):
+def get_top5(data: pd.DataFrame, continent: str):
     data.loc[:, "total"] = data.loc[:, range(2005, 2016)].sum(axis=1)
-    data2 = data.sort_values("total", ascending=False, inplace=False)
-    return data2.iloc[:5]
+    data_from_continent = data[data.Continent == continent]
+    data_ordered = data_from_continent.sort_values(
+        "total", ascending=False, inplace=False
+    )
+    return data_ordered.iloc[:5]
 
 
-def plot_heatmap(data: pd.DataFrame):
-    top5 = get_top5(data)
+def plot_heatmap(data: pd.DataFrame, continent: str):
+    top5 = get_top5(data, continent)
     top5.set_index("Country", inplace=True)
     heatmap = px.imshow(
         top5[range(2005, 2016)],
